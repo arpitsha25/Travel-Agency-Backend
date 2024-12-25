@@ -1,11 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
-import { loginService } from "./login.service";
+import { LoginService } from "./login.service";
 import { loginDto } from "./dto/login.dto";
 @Controller('login')
 export class loginController{
-    constructor(readonly  loginService : loginService){}
+    constructor(readonly  loginService : LoginService){}
     @Post()
-    loginUser(@Body() logindata : loginDto) : string{
-        return this.loginService.loginUserService(logindata)
-    }
+    async loginUser(@Body() logindata: loginDto): Promise<{ statusCode: number; message: string; error?: string }> {
+        const response = await this.loginService.loginUserService(logindata);
+        return response;  
+      }
 }
